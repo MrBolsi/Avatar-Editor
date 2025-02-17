@@ -1,0 +1,22 @@
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\obj\Debug\net8.0-windows\Avatar_Editor.Form1.resources
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\obj\Debug\net8.0-windows\Avatar Editor.csproj.GenerateResource.cache
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\obj\Debug\net8.0-windows\Avatar Editor.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\obj\Debug\net8.0-windows\Avatar Editor.AssemblyInfoInputs.cache
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\obj\Debug\net8.0-windows\Avatar Editor.AssemblyInfo.cs
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\obj\Debug\net8.0-windows\Avatar Editor.csproj.CoreCompileInputs.cache
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\bin\Debug\net8.0-windows\Avatar Editor.exe
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\bin\Debug\net8.0-windows\Avatar Editor.deps.json
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\bin\Debug\net8.0-windows\Avatar Editor.runtimeconfig.json
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\bin\Debug\net8.0-windows\Avatar Editor.dll
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\bin\Debug\net8.0-windows\Avatar Editor.pdb
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\obj\Debug\net8.0-windows\Avatar Editor.dll
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\obj\Debug\net8.0-windows\refint\Avatar Editor.dll
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\obj\Debug\net8.0-windows\Avatar Editor.pdb
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\obj\Debug\net8.0-windows\Avatar Editor.genruntimeconfig.cache
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\obj\Debug\net8.0-windows\ref\Avatar Editor.dll
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\obj\Debug\net8.0-windows\Avatar_Editor.Properties.Resources.resources
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\bin\Debug\net8.0-windows\Crc32.NET.dll
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\obj\Debug\net8.0-windows\Avatar Editor.csproj.AssemblyReference.cache
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\obj\Debug\net8.0-windows\Avatar E.CDEB8766.Up2Date
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\bin\Debug\net8.0-windows\Crc32.dll
+C:\Users\Administrador\Desktop\Gunbound\Avatar Editor\Avatar Editor\bin\Debug\net8.0-windows\System.IO.Hashing.dll

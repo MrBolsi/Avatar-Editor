@@ -1,0 +1,103 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Administrador\\Desktop\\Gunbound\\Avatar Editor\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{059F65CB-E698-4159-9319-BC45D736127E}|Avatar Editor\\Avatar Editor.csproj|c:\\users\\administrador\\desktop\\gunbound\\avatar editor\\avatar editor\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{059F65CB-E698-4159-9319-BC45D736127E}|Avatar Editor\\Avatar Editor.csproj|solutionrelative:avatar editor\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{059F65CB-E698-4159-9319-BC45D736127E}|Avatar Editor\\Avatar Editor.csproj|c:\\users\\administrador\\desktop\\gunbound\\avatar editor\\avatar editor\\lzhuf.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{059F65CB-E698-4159-9319-BC45D736127E}|Avatar Editor\\Avatar Editor.csproj|solutionrelative:avatar editor\\lzhuf.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{059F65CB-E698-4159-9319-BC45D736127E}|Avatar Editor\\Avatar Editor.csproj|C:\\Users\\Administrador\\Desktop\\Gunbound\\Avatar Editor\\avatar editor\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{059F65CB-E698-4159-9319-BC45D736127E}|Avatar Editor\\Avatar Editor.csproj|solutionrelative:avatar editor\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{059F65CB-E698-4159-9319-BC45D736127E}|Avatar Editor\\Avatar Editor.csproj|c:\\users\\administrador\\desktop\\gunbound\\avatar editor\\avatar editor\\gbcrypto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{059F65CB-E698-4159-9319-BC45D736127E}|Avatar Editor\\Avatar Editor.csproj|solutionrelative:avatar editor\\gbcrypto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 278,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "C:\\Users\\Administrador\\Desktop\\Gunbound\\Avatar Editor\\Avatar Editor\\Form1.cs",
+              "RelativeDocumentMoniker": "Avatar Editor\\Form1.cs",
+              "ToolTip": "C:\\Users\\Administrador\\Desktop\\Gunbound\\Avatar Editor\\Avatar Editor\\Form1.cs",
+              "RelativeToolTip": "Avatar Editor\\Form1.cs",
+              "ViewState": "AQIAAAYDAAAAAAAAAAAgwLkCAABZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-20T04:27:23.515Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "LzHuf.cs",
+              "DocumentMoniker": "C:\\Users\\Administrador\\Desktop\\Gunbound\\Avatar Editor\\Avatar Editor\\LzHuf.cs",
+              "RelativeDocumentMoniker": "Avatar Editor\\LzHuf.cs",
+              "ToolTip": "C:\\Users\\Administrador\\Desktop\\Gunbound\\Avatar Editor\\Avatar Editor\\LzHuf.cs",
+              "RelativeToolTip": "Avatar Editor\\LzHuf.cs",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAAAEAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T16:09:56.22Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GBCrypto.cs",
+              "DocumentMoniker": "C:\\Users\\Administrador\\Desktop\\Gunbound\\Avatar Editor\\Avatar Editor\\GBCrypto.cs",
+              "RelativeDocumentMoniker": "Avatar Editor\\GBCrypto.cs",
+              "ToolTip": "C:\\Users\\Administrador\\Desktop\\Gunbound\\Avatar Editor\\Avatar Editor\\GBCrypto.cs",
+              "RelativeToolTip": "Avatar Editor\\GBCrypto.cs",
+              "ViewState": "AQIAABgAAAAAAAAAAAAiwCEAAAA1AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-20T04:27:29.354Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Form1.cs [Projeto]",
+              "DocumentMoniker": "C:\\Users\\Administrador\\Desktop\\Gunbound\\Avatar Editor\\Avatar Editor\\Form1.cs",
+              "RelativeDocumentMoniker": "Avatar Editor\\Form1.cs",
+              "ToolTip": "C:\\Users\\Administrador\\Desktop\\Gunbound\\Avatar Editor\\Avatar Editor\\Form1.cs [Projeto]*",
+              "RelativeToolTip": "Avatar Editor\\Form1.cs [Projeto]*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-20T04:27:15.749Z"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 68,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

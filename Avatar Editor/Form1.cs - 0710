@@ -1,0 +1,684 @@
+using AEditor;
+using System.Collections.Generic;
+using System.Runtime.Intrinsics.X86;
+using System.Security.Cryptography;
+using System.Text;
+using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using String = System.String;
+
+namespace Avatar_Editor
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+            DecriptarWC("mh.dat");
+            EncriptarWC();
+        }
+        int CurrentIndex = 0;
+        public class AvatarData
+        {
+            public Int32 ItemNo;
+            public Int32 ImgNo;
+            public Int32 IsNew;
+            public string Name;
+            public string imgNum;
+            public byte[] imgNumWC;
+            public byte[] menuId;
+            public byte Visible; //Visible
+            public byte Unk03;
+            public byte[] Unk01;
+            public byte HabilitarSemana; //Semana
+            public byte Unk04;
+            public byte Unk05;
+            public byte[] Unk02;
+            public Int32 PriceByGoldForW;
+            public Int32 PriceByCashForW;
+            public Int32 abilitar2Horas; //
+            public Int32 PriceByGoldForH; //
+            public Int32 PriceByCashForH; //
+            public Int32 HabilitarMes; //Mes
+            public Int32 PriceByGoldForM;
+            public Int32 PriceByCashForM;
+            public Int32 HabilitarDia; //
+            public Int32 PriceByGoldForD; //
+            public Int32 PriceByCashForD; //
+            public Int32 HabilitarIlimitado; //Etherno
+            public Int32 PriceByGoldForI;
+            public Int32 PriceByCashForI;
+            public byte HabilitarGold; //Activacion Gold
+            public byte HabilitarCash; //Activacion Cash
+            public Int32 Habilitar2Horas;
+            public byte Unk12;
+            public byte Unk13;
+            public Int32 Delay;
+            public Int32 Pit_Angle;
+            public Int32 Attack;
+            public Int32 Defence;
+            public Int32 Energy;
+            public Int32 ItemSkipDelay;
+            public Int32 Shield_Recovery;
+            public Int32 Popularity;
+            public string Description;
+            public byte[] RemainData1;
+            public byte[] RemainData2;
+            public byte[] RemainData3;
+            public byte[] RemainData4;
+            public int codigoAv;
+            public byte[] CRC;
+            public byte[] CRCInicial;
+            public byte[] RemainData;
+        }
+
+        MemoryStream FileStream = null;
+        List<AvatarData> Temp = new List<AvatarData>();
+        // byte[] CRC = null;
+        // byte[] CRC2 = null;
+        // byte[] CRC3 = null;
+        int numAvatar = 0;
+        byte[] numAvatar2 = null;
+        // int i = 0;
+
+        public void Decriptar(string caminho)
+        {
+            byte[] avatar = File.ReadAllBytes(caminho);
+
+            // Leia os primeiros 4 bytes
+            StreamDataReader AV = new StreamDataReader(avatar);
+            numAvatar = AV.ReadInt32(); // Isso lê os primeiros 4 bytes
+            numAvatar2 = BitConverter.GetBytes(numAvatar);//Isso adiciona o mesmo valor acima, mas pra usar na encriptação depois
+            using (FileStream fs = new FileStream("Temp/AvatarDecriptado.dat", FileMode.Create, FileAccess.Write))
+            {
+                // Escreve os 4 primeiros bytes de volta no início do arquivo
+                byte[] numAvatarBytes = BitConverter.GetBytes(numAvatar);
+                fs.Write(numAvatarBytes, 0, numAvatarBytes.Length); // Escreve os 4 bytes
+
+                int i = 0;
+                while (i < numAvatar)
+                {
+                    // Lê os próximos dados
+                    byte[] CRC = AV.ReadBytes(3); // Lê os 3 bytes do CRC
+                    byte[] StageDecrypted = GBCrypto.Decompress(AV.ReadBytes(256), 644); // Decripta os dados
+                    StreamDataReader AV2 = new StreamDataReader(StageDecrypted);
+                    AvatarData T = new AvatarData();
+
+                    // Leitura normal dos campos
+                    T.CRC = CRC;
+                    T.RemainData1 = AV2.ReadBytes(18);
+                    T.imgNum = AV2.ReadPStringFixed(10);
+                    T.RemainData2 = AV2.ReadBytes(22);
+                    T.Name = AV2.ReadPStringFixed(18);
+                    T.RemainData3 = AV2.ReadBytes(56);
+                    T.Description = AV2.ReadPStringFixed(64); // Total 188 bytes
+                    T.RemainData4 = AV2.ReadBytes(456);//Aqui deve ser ajustado para o tamanho que esta sendo o bloco, nesse caso 644
+
+                    T.codigoAv = gerarCodigo(T.imgNum);
+                    Temp.Add(T); // Adiciona os dados lidos à lista
+
+
+                    // Escreve os dados decriptados no arquivo temporário
+                    fs.Write(StageDecrypted, 0, StageDecrypted.Length); // Escreve os dados decriptados
+                    i++;
+                }
+
+                ShowData(Temp[0]);
+            }
+
+
+        }
+        public void DecriptarWC(string caminho)
+        {
+            byte[] avatar = File.ReadAllBytes(caminho);
+
+            // Leia os primeiros 4 bytes
+            StreamDataReader AV = new StreamDataReader(avatar);
+            numAvatar = AV.ReadInt32(); // Isso lê os primeiros 4 bytes
+            numAvatar2 = BitConverter.GetBytes(numAvatar);//Isso adiciona o mesmo valor acima, mas pra usar na encriptação depois
+            using (FileStream fs = new FileStream("Temp/AvatarDecriptado.dat", FileMode.Create, FileAccess.Write))
+            {
+                // Escreve os 4 primeiros bytes de volta no início do arquivo
+                byte[] numAvatarBytes = BitConverter.GetBytes(numAvatar);
+                fs.Write(numAvatarBytes, 0, numAvatarBytes.Length); // Escreve os 4 bytes
+
+                int i = 0;
+                while (i < numAvatar)
+                {
+                    // Lê os próximos dados
+                    byte[] CRCInicial = AV.ReadBytes(3); // Lê os 3 bytes do CRC
+                    byte[] StageDecrypted = GBCrypto.Decompress(AV.ReadBytes(256), 644); // Decripta os dados
+                    StreamDataReader AV2 = new StreamDataReader(StageDecrypted);
+                    AvatarData T = new AvatarData();
+
+                    // Leitura normal dos campos
+                    T.CRCInicial = CRCInicial;
+                    T.ItemNo = AV2.ReadInt32();
+                    T.ImgNo = AV2.ReadInt32();
+                    T.IsNew = AV2.ReadInt32();
+                    T.Name = AV2.ReadPStringFixed(23);
+                    T.Visible = AV2.ReadByte(); //Visible
+                    T.Unk03 = AV2.ReadByte();
+                    T.HabilitarSemana = AV2.ReadByte(); //Semana
+                    T.Unk04 = AV2.ReadByte();
+                    T.Unk05 = AV2.ReadByte();
+                    T.PriceByGoldForW = AV2.ReadInt32();
+                    T.PriceByCashForW = AV2.ReadInt32();
+                    T.Habilitar2Horas = AV2.ReadInt32(); //
+                    T.PriceByGoldForH = AV2.ReadInt32(); //
+                    T.PriceByCashForH = AV2.ReadInt32(); //
+                    T.HabilitarMes = AV2.ReadInt32(); //Mes
+                    T.PriceByGoldForM = AV2.ReadInt32();
+                    T.PriceByCashForM = AV2.ReadInt32();
+                    T.HabilitarDia = AV2.ReadInt32(); //
+                    T.PriceByGoldForD = AV2.ReadInt32(); //
+                    T.PriceByCashForD = AV2.ReadInt32(); //
+                    T.HabilitarIlimitado = AV2.ReadInt32(); //Etherno
+                    T.PriceByGoldForI = AV2.ReadInt32();
+                    T.PriceByCashForI = AV2.ReadInt32();
+                    T.HabilitarGold = AV2.ReadByte(); //Activacion Gold
+                    T.HabilitarCash = AV2.ReadByte(); //Activacion Cash
+
+                    T.Unk12 = AV2.ReadByte();
+                    T.Unk13 = AV2.ReadByte();
+
+                    T.Delay = AV2.ReadInt32();
+                    T.Pit_Angle = AV2.ReadInt32();
+                    T.Attack = AV2.ReadInt32();
+                    T.Defence = AV2.ReadInt32();
+                    T.Energy = AV2.ReadInt32();
+                    T.ItemSkipDelay = AV2.ReadInt32();
+                    T.Shield_Recovery = AV2.ReadInt32();
+                    T.Popularity = AV2.ReadInt32();
+                    T.Description = AV2.ReadPStringFixed(64);
+                    T.RemainData = AV2.ReadBytes(448); ;//Aqui deve ser ajustado para o tamanho que esta sendo o bloco, nesse caso 644
+
+                    Temp.Add(T); // Adiciona os dados lidos à lista
+
+
+                    // Escreve os dados decriptados no arquivo temporário
+                    fs.Write(StageDecrypted, 0, StageDecrypted.Length); // Escreve os dados decriptados
+                    i++;
+                }
+
+                ShowData(Temp[0]);
+            }
+
+
+        }
+        public void EncriptarWC()
+        {
+            // SaveRow();
+
+            // Abrir o FileStream uma única vez para escrever o arquivo final
+
+            // Escreve o cabeçalho numAvatar2
+
+            // Usar um único MemoryStream e BinaryWriter para todo o processo
+            using (MemoryStream ms = new MemoryStream())
+            {
+
+                using (BinaryWriter writer = new BinaryWriter(ms))
+                {
+                    StreamDataWrite Ouput = new StreamDataWrite();
+                    Ouput.WriteBytes(numAvatar2);
+
+                    for (int i = 0; i < numAvatar; i++)
+                    {
+                        writer.BaseStream.Position = 0;
+                        // Limpar o MemoryStream antes de processar o próximo item
+                        ms.SetLength(0);
+
+                        // Escrever os dados no MemoryStream
+                        writer.Write(Temp[i].ItemNo);
+                        writer.Write(Temp[i].ImgNo);
+                        writer.Write(Temp[i].IsNew);
+
+                        // Processar o campo Name
+                        if (Temp[i].Name.Length == 0)
+                        {
+                            writer.Write(new byte[23]);
+                        }
+                        else
+                        {
+                            writer.Write(Temp[i].Name.ToArray());
+                            // writer.Write((byte)0);
+                            writer.BaseStream.Position += 23 - (Temp[i].Name.Length);
+                        }
+
+                        writer.Write(Temp[i].Visible);
+                        writer.Write(Temp[i].Unk03);
+                        writer.Write(Temp[i].HabilitarSemana);
+                        writer.Write(Temp[i].Unk04);
+                        writer.Write(Temp[i].Unk05);
+                        writer.Write(Temp[i].PriceByGoldForW);
+                        writer.Write(Temp[i].PriceByCashForW);
+                        writer.Write(Temp[i].Habilitar2Horas);
+                        writer.Write(Temp[i].PriceByGoldForH);
+                        writer.Write(Temp[i].PriceByCashForH);
+                        writer.Write(Temp[i].HabilitarMes);
+                        writer.Write(Temp[i].PriceByGoldForM);
+                        writer.Write(Temp[i].PriceByCashForM);
+                        writer.Write(Temp[i].HabilitarDia);
+                        writer.Write(Temp[i].PriceByGoldForD);
+                        writer.Write(Temp[i].PriceByCashForD);
+                        writer.Write(Temp[i].HabilitarIlimitado);
+                        writer.Write(Temp[i].PriceByGoldForI);
+                        writer.Write(Temp[i].PriceByCashForI);
+                        writer.Write(Temp[i].HabilitarGold);
+                        writer.Write(Temp[i].HabilitarCash);
+
+                        writer.Write(Temp[i].Unk12);
+                        writer.Write(Temp[i].Unk13);
+
+                        writer.Write(Temp[i].Delay);
+                        writer.Write(Temp[i].Pit_Angle);
+                        writer.Write(Temp[i].Attack);
+                        writer.Write(Temp[i].Defence);
+                        writer.Write(Temp[i].Energy);
+                        writer.Write(Temp[i].ItemSkipDelay);
+                        writer.Write(Temp[i].Shield_Recovery);
+                        writer.Write(Temp[i].Popularity);
+
+                        // Processar o campo Description
+                        if (Temp[i].Description.Length == 0)
+                        {
+                            writer.Write(new byte[64]);
+                        }
+                        else
+                        {
+                            writer.Write(Temp[i].Description.ToArray());
+                            //writer.Write((byte)0);
+                            writer.BaseStream.Position += 64 - (Temp[i].Description.Length);
+                        }
+
+                        writer.Write(Temp[i].RemainData);
+
+                        // Encriptar o bloco atual
+                        byte[] encryptedData = GBCrypto.Compress(ms.ToArray());
+
+                        // Escrever o CRC e o bloco encriptado no arquivo final
+
+                        Ouput.WriteBytes(Temp[i].CRCInicial);
+                        Ouput.WriteBytes(encryptedData);
+
+                        // Zerar qualquer outra variável temporária necessária
+                        Array.Clear(encryptedData, 0, encryptedData.Length);
+                    }
+                    File.WriteAllBytes("Temp/mh.dat", Ouput.ToByteArray());
+                }
+            }
+        }
+
+
+
+        public void Encriptar()
+        {
+            SaveRow();
+
+            // Lista para armazenar os blocos encriptados
+            List<byte[]> encryptedBlocks = new List<byte[]>();
+
+            // Abrir o FileStream uma única vez para escrever o arquivo final
+            using (FileStream finalFile = new FileStream("avatar.dat", FileMode.Create, FileAccess.Write))
+            {
+                // Escrever o cabeçalho numAvatar2
+                finalFile.Write(numAvatar2, 0, numAvatar2.Length);
+
+                // Para cada item da lista, crie e encripte o bloco
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (BinaryWriter SW = new BinaryWriter(ms))
+                    {
+                        ms.SetLength(0);
+                        SW.BaseStream.Position = 0;
+                        for (int i = 0; i < Temp.Count; i++)
+                        {
+                            // Limpar o MemoryStream antes de processar o próximo item
+                            ms.SetLength(0);
+
+                            // Escrever os dados do bloco
+                            SW.Write(Temp[i].RemainData1);
+                            SW.Write(Encoding.ASCII.GetBytes(Temp[i].imgNum));
+                            SW.Write((byte)0);
+                            SW.BaseStream.Position += 10 - (Temp[i].imgNum.Length + 1);
+                            SW.Write(Temp[i].RemainData2);
+                            SW.Write(Encoding.ASCII.GetBytes(Temp[i].Name));
+                            SW.Write((byte)0);
+                            SW.BaseStream.Position += 18 - (Temp[i].Name.Length + 1);
+                            SW.Write(Temp[i].RemainData3);
+                            SW.Write(Encoding.ASCII.GetBytes(Temp[i].Description));
+                            SW.Write((byte)0);
+                            SW.BaseStream.Position += 64 - (Temp[i].Description.Length + 1);
+                            SW.Write(Temp[i].RemainData4);
+                            SW.BaseStream.Position += 456 - (Temp[i].RemainData4.Length + 1);
+
+                            // Encriptar o bloco atual
+                            byte[] encryptedData = GBCrypto.Compress(ms.ToArray());
+
+                            // Escrever diretamente o bloco encriptado no arquivo
+                            finalFile.Write(Temp[i].CRC, 0, Temp[i].CRC.Length);
+                            finalFile.Write(encryptedData, 0, encryptedData.Length);
+                        }
+
+                    }
+
+                }
+            }
+        }
+
+        void SaveRow()
+        {
+            // Temp[CurrentIndex].MapName = TXTTITLE.Text;
+            Temp[CurrentIndex].Name = txtNome.Text;
+            Temp[CurrentIndex].Description = txtDesc.Text;
+            //Temp[CurrentIndex].imgNum = txtImgNum.Text;
+            Temp[CurrentIndex].PriceByCashForW = Int32.Parse(txtCashW.Text);
+            Temp[CurrentIndex].PriceByCashForH = Int32.Parse(txtCash2H.Text);
+            Temp[CurrentIndex].PriceByCashForD = Int32.Parse(txtCash1D.Text);
+            Temp[CurrentIndex].PriceByCashForM = Int32.Parse(txtCashM.Text);
+            Temp[CurrentIndex].PriceByCashForI = Int32.Parse(txtCashi.Text);
+            Temp[CurrentIndex].PriceByGoldForH = Int32.Parse(txtGold2H.Text);
+            Temp[CurrentIndex].PriceByGoldForD = Int32.Parse(txtGold1Dia.Text);
+            Temp[CurrentIndex].PriceByGoldForW = Int32.Parse(txtGoldW.Text);
+            Temp[CurrentIndex].PriceByGoldForM = Int32.Parse(txtGoldM.Text);
+            Temp[CurrentIndex].PriceByGoldForI = Int32.Parse(txtGoldI.Text);
+            Temp[CurrentIndex].Delay = Int32.Parse(txtDelay.Text);
+            Temp[CurrentIndex].Defence = Int32.Parse(txtDefense.Text);
+            Temp[CurrentIndex].Energy = Int32.Parse(txtEnergy.Text);
+            Temp[CurrentIndex].Pit_Angle = Int32.Parse(txtPit.Text);
+            Temp[CurrentIndex].Popularity = Int32.Parse(txtPopula.Text);
+            Temp[CurrentIndex].Shield_Recovery = Int32.Parse(txtShielRec.Text);
+            Temp[CurrentIndex].ItemSkipDelay = Int32.Parse(txtSkipDelay.Text);
+            Temp[CurrentIndex].Attack = Int32.Parse(txtAtack.Text);
+            Temp[CurrentIndex].ImgNo = Int32.Parse(txtImgNum.Text);
+            Temp[CurrentIndex].codigoAv = Int32.Parse(txtCodigo.Text);
+            Temp[CurrentIndex].IsNew = Int32.Parse(txtIsNew.Text);
+            if ((bool)chkCash.Checked == true)
+            {
+                Temp[CurrentIndex].HabilitarCash = 0x1;
+            }
+            else
+            {
+                Temp[CurrentIndex].HabilitarCash = 0x0;
+            }
+            if ((bool)chkGold.Checked == true)
+            {
+                Temp[CurrentIndex].HabilitarGold = 0x1;
+            }
+            else
+            {
+                Temp[CurrentIndex].HabilitarGold = 0x0;
+            }
+            if ((bool)chkVisivel.Checked == true)
+            {
+                Temp[CurrentIndex].Visible = 0x1;
+            }
+            else
+            {
+                Temp[CurrentIndex].Visible = 0x0;
+            }
+
+
+        }
+
+        public string BytesToHexString(byte[] bytes)
+        {
+            return BitConverter.ToString(bytes).Replace("-", "");
+        }
+
+        public byte[] HexStringToBytes(string hex)
+        {
+            int length = hex.Length;
+            byte[] bytes = new byte[length / 2];
+            for (int i = 0; i < length; i += 2)
+            {
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            }
+            return bytes;
+        }
+
+        void ShowData(AvatarData Data)
+        {
+
+            chkCash.Checked = false;
+            chkGold.Checked = false;
+            chkVisivel.Checked = false;
+            txtNome.Text = "";
+            txtDesc.Text = "";
+            txtCashi.Text = "";
+            txtCashM.Text = "";
+            txtCashW.Text = "";
+            txtGoldI.Text = "";
+            txtGoldM.Text = "";
+            txtGoldW.Text = "";
+            txtDelay.Text = "";
+            txtDefense.Text = "";
+            txtEnergy.Text = "";
+            txtPit.Text = "";
+            txtPopula.Text = "";
+            txtShielRec.Text = "";
+            txtSkipDelay.Text = "";
+            txtAtack.Text = "";
+            /////////////////////////////////////
+            lblMax.Visible = true;
+            LBLINDEX.Visible = true;
+            LBLINDEX.Text = "Avatar Atual : " + CurrentIndex;
+            lblMax.Text = "Num. de Avatares : " + numAvatar.ToString();
+            txtNome.Text = Data.Name;
+            txtDesc.Text = Data.Description;
+            txtCashi.Text = Data.PriceByCashForI.ToString();
+            txtCashM.Text = Data.PriceByCashForM.ToString();
+            txtCashW.Text = Data.PriceByCashForW.ToString();
+            txtGoldI.Text = Data.PriceByGoldForI.ToString();
+            txtGoldM.Text = Data.PriceByGoldForM.ToString();
+            txtGoldW.Text = Data.PriceByGoldForW.ToString();
+            txtDelay.Text = Data.Delay.ToString();
+            txtDefense.Text = Data.Defence.ToString();
+            txtEnergy.Text = Data.Energy.ToString();
+            txtPit.Text = Data.Pit_Angle.ToString();
+            txtPopula.Text = Data.Popularity.ToString();
+            txtShielRec.Text = Data.Shield_Recovery.ToString();
+            txtSkipDelay.Text = Data.ItemSkipDelay.ToString();
+            txtAtack.Text = Data.Attack.ToString();
+            txtImgNum.Text = Data.ImgNo.ToString();
+            txtCodigo.Text = Data.ItemNo.ToString();
+            txtCash2H.Text = Data.PriceByCashForH.ToString();
+            txtCash1D.Text = Data.PriceByCashForD.ToString();
+            txtGold1Dia.Text = Data.PriceByGoldForD.ToString();
+            txtGold2H.Text = Data.PriceByGoldForH.ToString();
+            txtIsNew.Text = Data.IsNew.ToString();
+            //txtImgNum.Text = Data.imgNum.ToString();
+            /*txtCodigo.Text = Data.codigoAv.ToString();
+            txtRemain1.Text = BytesToHexString(Data.RemainData1);
+            txtRemain2.Text = BytesToHexString(Data.RemainData2);
+            txtRemain3.Text = BytesToHexString(Data.RemainData3);
+            txtRemain4.Text = BytesToHexString(Data.RemainData4);*/
+            if (Data.HabilitarCash == 1)
+            {
+                chkCash.Checked = true;
+
+            }
+            if (Data.HabilitarGold == 1)
+            {
+                chkGold.Checked = true;
+            }
+
+            if (Data.Visible == 1)
+            {
+                chkVisivel.Checked = true;
+            }
+            if (Data.Habilitar2Horas == 1)
+            {
+                chk2H.Checked = true;
+            }
+            if (Data.HabilitarDia == 1)
+            {
+                chk1Dia.Checked = true;
+            }
+            if (Data.HabilitarMes == 1)
+            {
+                chk1Mes.Checked = true;
+            }
+            if (Data.HabilitarIlimitado == 1)
+            {
+                chkEterno.Checked = true;
+            }
+        }
+
+        private void btnProx_Click(object sender, EventArgs e)
+        {
+            SaveRow();
+            if (CurrentIndex + 1 < Temp.Count)
+            {
+                CurrentIndex++;
+                ShowData(Temp[CurrentIndex]);
+            }
+        }
+
+
+        public int gerarCodigo(string codigo)
+        {
+            int numConver = 0;
+            string substring = codigo.Substring(3);
+            string tipoAv = codigo.Substring(1, 2);
+            int codTipo = 0;
+            int codigoFinal = 0;
+            if (int.TryParse(substring, out int number))
+            {
+                numConver = number;
+            }
+            if (tipoAv == "mh")
+            {
+                codTipo = 98304;
+            }
+            else if (tipoAv == "mb")
+            {
+                codTipo = 32768;
+            }
+            else if (tipoAv == "mg")
+            {
+                codTipo = 163840;
+            }
+            else if (tipoAv == "fh")
+            {
+                codTipo = 65536;
+            }
+            else if (tipoAv == "fb")
+            {
+                codTipo = 0;
+            }
+            else if (tipoAv == "fg")
+            {
+                codTipo = 131072;
+            }
+            else if (tipoAv == "mf")
+            {
+                codTipo = 229376;
+            }
+
+            codigoFinal = numConver + codTipo;
+            return codigoFinal;
+        }
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAnt_Click(object sender, EventArgs e)
+        {
+            SaveRow();
+            if (CurrentIndex > -1)
+            {
+                if (CurrentIndex - 1 > -1)
+                {
+                    CurrentIndex--;
+                    ShowData(Temp[CurrentIndex]);
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SaveRow();
+            EncriptarWC();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            int number = Convert.ToInt32(txtIr.Text);
+            SaveRow();
+            CurrentIndex = number;
+            ShowData(Temp[CurrentIndex]);
+
+        }
+
+
+        private void avatardatToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            lblMax.Visible = true;
+            LBLINDEX.Visible = true;
+            Decriptar(OpenFile());
+        }
+
+        private string OpenFile()
+        {
+            // Garante que qualquer FileStream existente seja fechado e liberado corretamente
+            if (FileStream != null)
+            {
+                FileStream.Close();
+                FileStream.Dispose();
+                FileStream = null;
+            }
+
+            // Cria uma nova instância do OpenFileDialog
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            // Define o diretório inicial como a pasta onde o executável está
+            openFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+            // Define as propriedades do OpenFileDialog (opcional)
+            openFileDialog.Filter = "Dat Files (*.Dat)|*.Dat"; // Filtro de tipos de arquivos
+            openFileDialog.FilterIndex = 1; // Primeiro tipo de filtro é o padrão
+            openFileDialog.RestoreDirectory = true; // Restaura o último diretório acessado
+
+            // Exibe a caixa de diálogo e verifica se o usuário selecionou um arquivo
+            DialogResult result = openFileDialog.ShowDialog();
+
+            // Verifica se o usuário clicou em OK, ou seja, selecionou um arquivo
+            if (result == DialogResult.OK)
+            {
+                // Verifica se o arquivo existe e é válido
+                if (!string.IsNullOrEmpty(openFileDialog.FileName) && File.Exists(openFileDialog.FileName))
+                {
+                    // Retorna o caminho completo do arquivo selecionado
+                    return openFileDialog.FileName;
+                }
+            }
+
+            // Se o usuário cancelar ou não selecionar nenhum arquivo, retorna null ou uma string vazia
+            return null;
+        }
+
+        private void salvarEncriptadoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EncriptarWC();
+        }
+
+        private void abrirEncriptadoToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            DecriptarWC(OpenFile());
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+
+}
